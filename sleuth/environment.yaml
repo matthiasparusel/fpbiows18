@@ -1,6 +1,0 @@
-channels:
-  - conda-forge
-  - bioconda
-dependencies:
-  - r-sleuth =1.30
-  - bioconductor-rhdf5lib =1.2.1
