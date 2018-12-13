@@ -5,7 +5,6 @@ SAMPLES = table.index.values.tolist()
 
 rule all:
     input:
-        #lambda wildcards: table['fq1'][wildcards.sample]
         expand("output/abundances/{sample}", sample=SAMPLES)
 
 
@@ -23,8 +22,6 @@ rule counts:
         tra = "output/transcripts.idx", # can stay
         read1 = lambda wildcards: table['fq1'][wildcards.sample],
         read2 = lambda wildcards: table['fq2'][wildcards.sample]
-        #a1="data/reads/a.chr21.1.fq",
-        #a2="data/reads/a.chr21.2.fq"
     output:
         directory("output/abundances/{sample}")
     shell:
