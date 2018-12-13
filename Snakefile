@@ -1,8 +1,13 @@
 import pandas as pd
 
 table = pd.read_table("data/table.tsv").set_index("sample", drop=False)
-# fq_a = table['fq1']['a'] + ' ' + table['fq2']['a']
-# fq_b = table['fq1']['b'] + ' ' + table['fq2']['b']
+SAMPLES = table.index.values.tolist()
+
+rule all:
+    input:
+        #lambda wildcards: table['fq1'][wildcards.sample]
+        expand("output/abundances/{sample}", sample=SAMPLES)
+
 
 rule index:
     input:
@@ -12,12 +17,26 @@ rule index:
     shell:
         "kallisto index -i {output} {input}"
 
+
 rule counts:
     input:
-        tra="output/transcripts.idx",
-        a1="data/reads/a.chr21.1.fq",
-        a2="data/reads/a.chr21.2.fq"
+        tra = "output/transcripts.idx", # can stay
+        read1 = lambda wildcards: table['fq1'][wildcards.sample],
+        read2 = lambda wildcards: table['fq2'][wildcards.sample]
+        #a1="data/reads/a.chr21.1.fq",
+        #a2="data/reads/a.chr21.2.fq"
     output:
-        directory("output/a_abundance")
+        directory("output/abundances/{sample}")
     shell:
-        "kallisto quant -i {input.tra} -o {output} -b 100 {input.a1} {input.a2}"
+        "kallisto quant -i {input.tra} -o {output} -b 100 {input.read1} {input.read2}"
+
+
+# rule normalize:
+    input:
+        expand("output/abundances/{sample}/abundace.h5", sample=SAMPLES)
+#    output:
+# mal gucken
+#    script:
+        "scripts/sleuth.R"
+
+#rule boxenplot:
