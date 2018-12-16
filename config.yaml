@@ -1,0 +1,4 @@
+# path to the sample sheet (TSV format, columns: sample, condition, ...)
+samples: data/samples.tsv
+# path to the reference transcriptome
+ref_transcriptome: data/ref/transcriptome.chr21.fa
