@@ -5,11 +5,11 @@ from snakemake.utils import validate
 ##### load config and sample sheets #####
 
 configfile: "config.yaml"
-# validate(config, schema="schemas/config.schema.yaml")
+validate(config, schema="schemas/config.schema.yaml")
 
-table = pd.read_table(config["samples"]).set_index("sample", drop=False)
-# validate(samples, schema="schemas/samples.schema.yaml")
-SAMPLES = table.index.values.tolist()
+samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
+validate(samples, schema="schemas/samples.schema.yaml")
+SAMPLES = samples.index.values.tolist()
 
 
 ##### rules #####
@@ -30,8 +30,8 @@ rule index:
 rule counts:
     input:
         tra = "output/transcripts.idx",
-        fq1 = lambda wildcards: table['fq1'][wildcards.sample],
-        fq2 = lambda wildcards: table['fq2'][wildcards.sample]
+        fq1 = lambda wildcards: samples['fq1'][wildcards.sample],
+        fq2 = lambda wildcards: samples['fq2'][wildcards.sample]
     output:
         directory("output/abundances/{sample}")
     shell:

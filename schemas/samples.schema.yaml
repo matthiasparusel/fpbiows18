@@ -8,7 +8,10 @@ properties:
   condition:
     type: string
     description: sample condition that will be compared during differential expression analysis (e.g. a treatment, a tissue time, a disease)
+  fq1:
+    type: string
+  fq2:
+    type: string
 
 required:
   - sample
-- condition
