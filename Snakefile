@@ -23,20 +23,22 @@ rule index:
         config["ref_transcriptome"]
         #"data/ref/transcriptome.chr21.fa"
     output:
-        "results/transcripts.idx"
+        "temp/transcripts.idx"
     shell:
         "kallisto index -i {output} {input}"
 
 rule counts:
     input:
-        tra = "results/transcripts.idx",
+        tra = "temp/transcripts.idx",
         fq1 = lambda wildcards: samples['fq1'][wildcards.sample],
         fq2 = lambda wildcards: samples['fq2'][wildcards.sample]
     output:
         directory("results/{sample}/kallisto")
+    conda:
+        "envs/kallisto.yaml"
     shell:
         "kallisto quant -i {input.tra} -o {output} -b 100 {input.fq1} {input.fq2}"
-        
+
 
 # rule normalize:
 #    input:
