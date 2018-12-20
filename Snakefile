@@ -16,26 +16,27 @@ SAMPLES = samples.index.values.tolist()
 
 rule all:
     input:
-        expand("output/abundances/{sample}", sample=SAMPLES)
+        expand("results/{sample}/kallisto", sample=SAMPLES)
 
 rule index:
     input:
         config["ref_transcriptome"]
         #"data/ref/transcriptome.chr21.fa"
     output:
-        "output/transcripts.idx"
+        "results/transcripts.idx"
     shell:
         "kallisto index -i {output} {input}"
 
 rule counts:
     input:
-        tra = "output/transcripts.idx",
+        tra = "results/transcripts.idx",
         fq1 = lambda wildcards: samples['fq1'][wildcards.sample],
         fq2 = lambda wildcards: samples['fq2'][wildcards.sample]
     output:
-        directory("output/abundances/{sample}")
+        directory("results/{sample}/kallisto")
     shell:
         "kallisto quant -i {input.tra} -o {output} -b 100 {input.fq1} {input.fq2}"
+        
 
 # rule normalize:
 #    input:
