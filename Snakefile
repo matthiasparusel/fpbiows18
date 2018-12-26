@@ -16,12 +16,11 @@ SAMPLES = samples.index.values.tolist()
 
 rule all:
     input:
-        expand("results/{sample}/kallisto", sample=SAMPLES)
+        expand("results/{sample}/sleuth/dataframe.tsv", sample=SAMPLES)
 
 rule index:
     input:
         config["ref_transcriptome"]
-        #"data/ref/transcriptome.chr21.fa"
     output:
         "temp/transcripts.idx"
     shell:
@@ -37,15 +36,18 @@ rule counts:
     conda:
         "envs/kallisto.yaml"
     shell:
-        "kallisto quant -i {input.tra} -o {output} -b 100 {input.fq1} {input.fq2}"
+        "kallisto quant -i {input.tra} -o {output} -b 10 {input.fq1} {input.fq2}"
 
 
-# rule normalize:
-#    input:
-#           expand("output/abundances/{sample}/abundace.h5", sample=SAMPLES)
-#    output:
-# mal gucken
-#    script:
-#        "scripts/sleuth.R"
+rule sleuth:
+    input:
+        kal = expand("results/{sample}/kallisto", sample=SAMPLES),
+        sam = config["samples"]
+    output:
+        expand("results/{sample}/sleuth/dataframe.tsv", sample=SAMPLES)
+    conda:
+        "envs/sleuth.yaml"
+    script:
+        "scripts/sleuth.R"
 
 #rule boxenplot:
