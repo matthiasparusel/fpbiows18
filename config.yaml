@@ -2,3 +2,5 @@
 samples: data/samples.tsv
 # path to the reference transcriptome
 ref_transcriptome: data/ref/transcriptome.chr21.fa
+# path to the resulting graph
+graph: results/counts_of_all_samples.svg 

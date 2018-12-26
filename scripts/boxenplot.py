@@ -1,19 +1,30 @@
-import numpy as np
+# import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import sys
+# import sys
 
-#Argumente einlesen (Format: python boxenplot.py pfad1 pfad2 ... pfadn)
-paths = sys.argv
+# Get the sample read
+samples = pd.read_table(snakemake.input[0], delim_whitespace=True)
 
+# First, get Kallisto results and estimated counts
+kal_results = list()
+for sample in samples['sample']:
+    df = pd.read_table(f'./results/{sample}/kallisto/abundance.tsv',
+                                        delim_whitespace=True)
+    df['sample'] = sample
+    kal_results.append(df)
+kal_results = pd.concat(kal_results)
 
-kallisto_output_a =  pd.read_table('output/a_abundance/abundance.tsv', delim_whitespace=True)
-kallisto_output_b =  pd.read_table('output/b_abundance/abundance.tsv', delim_whitespace=True)
+# Second, get the normalized estimated counts
+sle_results = pd.read_table(snakemake.input[1], delim_whitespace=True)
 
-counts_a = kallisto_output_a.loc[: ,"est_counts"]
-counts_b = kallisto_output_b.loc[: ,"est_counts"]
-
-ax = sns.boxenplot(data=[counts_a, counts_b])
-
-plt.show()
+# Finally plot the thing
+fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(9, 4), sharey=True)
+sns.boxenplot(x='sample', y='est_counts', data=kal_results, ax=axes[0])
+axes[0].set_title('counts of all samples')
+sns.boxenplot(x='sample', y='est_counts', data=sle_results, ax=axes[1])
+axes[1].set_title('normalized counts of all samples')
+for ax in axes:
+    ax.yaxis.grid(True)
+plt.savefig(snakemake.output[0])
