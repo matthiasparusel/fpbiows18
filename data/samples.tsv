@@ -1,4 +1,0 @@
-sample	fq1	fq2	condition
-a	data/reads/a.chr21.1.fq	data/reads/a.chr21.2.fq	treated
-b	data/reads/b.chr21.1.fq	data/reads/b.chr21.2.fq	untreated
-c	data/reads/b.chr21.1.fq	data/reads/b.chr21.2.fq	untreated
