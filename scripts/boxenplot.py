@@ -11,7 +11,7 @@ samples = pd.read_table(snakemake.input[0], delim_whitespace=True)
 kal_results = list()
 for sample in samples['sample']:
     df = pd.read_table(f'./results/{sample}/kallisto/abundance.tsv',
-                                        delim_whitespace=True)
+                       delim_whitespace=True)
     df['sample'] = sample
     kal_results.append(df)
 kal_results = pd.concat(kal_results)
