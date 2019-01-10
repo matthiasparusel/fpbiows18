@@ -18,21 +18,18 @@ so <- sleuth_fit(so, ~1, 'reduced')
 
 so <- sleuth_lrt(so, 'reduced', 'full')
 
+# Normalize and write in tsb file
 normalized <- kallisto_table(so)
-
-# First write a table containing all samples
 write.table(normalized,
-            file = snakemake@output$'complete',
+            file = snakemake@output$'counts_norm',
             quote = FALSE,
             sep = '\t',
             col.names = NA)
 
-# Then write one table for each sample only containing its data
-for (row in 1:nrow(s2c)) {
-    write.table(dplyr::filter(normalized[, 1:ncol(normalized)-1],
-                              sample == s2c[row, ]$'sample'),
-                file = s2c[row, ]$'output_file',
-                quote = FALSE,
-                sep = '\t',
-                col.names = NA)
-}
+# Write in tsv file for use with Python
+sleuth_table <- sleuth_results(so, 'reduced:full', 'lrt', show_all = FALSE)
+write.table(sleuth_table,
+            file = snakemake@output$'sleuth_res',
+            quote = FALSE,
+            sep = '\t',
+            col.names = NA)

@@ -16,7 +16,7 @@ SAMPLES = samples.index.values.tolist()
 
 rule all:
     input:
-        config['graph']
+        config['graph_p_values']
 
 rule index:
     input:
@@ -44,8 +44,9 @@ rule sleuth:
         kal = expand("results/{sample}/kallisto", sample=SAMPLES),
         sam = config["samples"]
     output:
-        sleuth = expand("results/{sample}/sleuth/dataframe.tsv", sample=SAMPLES),
-        complete = 'temp/complete_normalized.tsv'
+        #sleuth = expand("results/{sample}/sleuth/dataframe.tsv", sample=SAMPLES),
+        counts_norm = 'temp/counts_normalized.tsv',
+        sleuth_res = 'temp/sleuth_table.tsv'
     conda:
         "envs/sleuth.yaml"
     script:
@@ -54,8 +55,16 @@ rule sleuth:
 rule boxenplot:
     input:
         sam = config["samples"],
-        sle = 'temp/complete_normalized.tsv'
+        sle = 'temp/counts_normalized.tsv'
     output:
-        config['graph']
+        config['graph_counts']
     script:
         "scripts/boxenplot.py"
+
+rule p_values:
+    input:
+        'temp/sleuth_table.tsv'
+    output:
+        config['graph_p_values']
+    script:
+        "scripts/p_values.py"
