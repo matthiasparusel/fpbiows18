@@ -8,3 +8,4 @@ transcripts_index: temp/transcripts.idx
 # path to the resulting graphs
 graph_counts: results/counts_of_all_samples.svg
 graph_p_values: results/p_values.svg
+stripplot_lowestpval: results/stripplot.svg

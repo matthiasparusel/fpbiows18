@@ -76,3 +76,14 @@ rule p_values:
         "envs/python_plots.yaml"
     script:
         "scripts/p_values.py"
+
+rule stripplot:
+    input:
+        'temp/sleuth_table.tsv',
+        'temp/counts_normalized.tsv'
+    output:
+        config['stripplot_lowestpval']
+    conda:
+        "envs/python_plots.yaml"
+    script:
+        "scripts/stripplot_top20.py"
