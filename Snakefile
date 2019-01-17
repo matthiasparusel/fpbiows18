@@ -16,13 +16,17 @@ SAMPLES = samples.index.values.tolist()
 
 rule all:
     input:
-        config['graph_p_values']
+        config['graph_p_values'],
+        config['graph_counts']
+
 
 rule index:
     input:
         config["ref_transcriptome"]
     output:
-        "temp/transcripts.idx"
+        config["transcripts_index"]
+    conda:
+        "envs/kallisto.yaml"
     shell:
         "kallisto index -i {output} {input}"
 
@@ -58,6 +62,8 @@ rule boxenplot:
         sle = 'temp/counts_normalized.tsv'
     output:
         config['graph_counts']
+    conda:
+        "envs/python_plots.yaml"
     script:
         "scripts/boxenplot.py"
 
@@ -66,5 +72,7 @@ rule p_values:
         'temp/sleuth_table.tsv'
     output:
         config['graph_p_values']
+    conda:
+        "envs/python_plots.yaml"
     script:
         "scripts/p_values.py"
