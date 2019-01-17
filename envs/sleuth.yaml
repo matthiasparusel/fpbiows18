@@ -4,5 +4,5 @@ channels:
   - bioconda
 dependencies:
   - r-sleuth =0.30
-  - bioconductor-rhdf5lib =1.4
-  - bioconductor-rhdf5 =2.26
+  - icm-iconics::bioconductor-rhdf5lib =1.4
+  - icm-iconics::bioconductor-rhdf5 =2.26
