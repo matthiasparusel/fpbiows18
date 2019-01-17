@@ -24,7 +24,7 @@ rule index:
     input:
         config["ref_transcriptome"]
     output:
-        config["transcripts_index"]
+        config["transcripts_index"] # create .idx file
     conda:
         "envs/kallisto.yaml"
     shell:
@@ -32,7 +32,7 @@ rule index:
 
 rule counts:
     input:
-        tra = "temp/transcripts.idx",
+        tra = config["transcripts_index"],
         fq1 = lambda wildcards: samples['fq1'][wildcards.sample],
         fq2 = lambda wildcards: samples['fq2'][wildcards.sample]
     output:
@@ -76,3 +76,10 @@ rule p_values:
         "envs/python_plots.yaml"
     script:
         "scripts/p_values.py"
+
+rule pca:
+    input:
+    output:
+    conda:
+    script:
+        "scripts/pca.py"
