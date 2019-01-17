@@ -77,9 +77,13 @@ rule p_values:
     script:
         "scripts/p_values.py"
 
-rule pca:
+rule stripplot:
     input:
+        'temp/sleuth_table.tsv',
+        'temp/counts_normalized.tsv'
     output:
+        config['stripplot_lowestpval']
     conda:
+        "envs/python_plots.yaml"
     script:
-        "scripts/pca.py"
+        "scripts/stripplot_top20.py"
