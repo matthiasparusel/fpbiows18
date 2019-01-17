@@ -11,5 +11,4 @@ ax = sns.distplot(p_value_table, bins=ranges, axlabel='P-values', hist=True, rug
 ax.yaxis.grid(True)
 ax.xaxis.grid(True)
 plt.ylabel('counts')
-
 plt.savefig(snakemake.output[0])
