@@ -27,4 +27,6 @@ sns.boxenplot(x='sample', y='est_counts', data=sle_results, ax=axes[1])
 axes[1].set_title('normalized counts of all samples')
 for ax in axes:
     ax.yaxis.grid(True)
-plt.savefig(snakemake.output[0])
+    
+plt.xticks(rotation=45)
+plt.savefig(snakemake.output[0],bbox_inches="tight")
