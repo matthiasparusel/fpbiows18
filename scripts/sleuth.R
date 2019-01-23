@@ -3,7 +3,7 @@ suppressMessages({
 })
 
 # Get the direcories for the samples and the corresponding kallisto results
-samples_dir <- file.path('.', snakemake@input['sam'])
+samples_dir <- file.path(snakemake@input['sam'])
 kal_dirs <- file.path('.', unlist(snakemake@input['kal']))
 
 s2c <- read.table(samples_dir, header = TRUE, stringsAsFactors = FALSE)

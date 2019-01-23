@@ -40,7 +40,7 @@ rule counts:
     conda:
         "envs/kallisto.yaml"
     shell:
-        "kallisto quant -i {input.tra} -o {output} -b 10 {input.fq1} {input.fq2}"
+        "kallisto quant --threads={threads} -i {input.tra} -o {output} -b 10 {input.fq1} {input.fq2}"
 
 
 rule sleuth:
