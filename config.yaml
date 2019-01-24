@@ -4,11 +4,7 @@ samples: /home/matthias/Studium/fpbio/data/samples.tsv
 ref_transcriptome: /home/matthias/Studium/fpbio/data/homo_sapiens_transcriptome.fa.gz
 # path to the idx file if available
 # default: temp/transcripts.idx
-<<<<<<< HEAD
-transcripts_index: temp/transcriptome.idx
-=======
 transcripts_index: /home/matthias/Studium/fpbio/data/homo_sapiens_transcriptome.idx
->>>>>>> 343caf612671242a0bd198bb0769c7563fca0b5c
 # path to the resulting graphs
 graph_counts: results/counts_of_all_samples.svg
 graph_p_values: results/p_values.svg
