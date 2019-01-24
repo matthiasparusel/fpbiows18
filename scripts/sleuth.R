@@ -7,9 +7,7 @@ samples_dir <- file.path('.', snakemake@input['sam'])
 kal_dirs <- file.path('.', unlist(snakemake@input['kal']))
 
 s2c <- read.table(samples_dir, header = TRUE, stringsAsFactors = FALSE)
-s2c <- dplyr::mutate(s2c,
-                     path = kal_dirs,
-                     output_file = file.path('.', unlist(snakemake@output$'sleuth')))
+s2c <- dplyr::mutate(s2c, path = kal_dirs)
 
 so <- sleuth_prep(s2c, ~ condition, extra_bootstrap_summary = TRUE)
 
@@ -33,3 +31,14 @@ write.table(sleuth_table,
             quote = FALSE,
             sep = '\t',
             col.names = NA)
+
+# Create sleuth_marix and save in tsv
+sleuth_matrix <- sleuth_to_matrix(so, 'obs_norm', 'est_counts')
+write.table(sleuth_matrix,
+            file = snakemake@output$'sleuth_matrix',
+            quote = FALSE,
+            sep = '\t',
+            col.names = NA)
+
+# finally save leuth object
+sleuth_save(so, snakemake@output$'sleuth_object')

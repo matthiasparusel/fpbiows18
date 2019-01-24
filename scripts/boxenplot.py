@@ -20,6 +20,7 @@ kal_results = pd.concat(kal_results)
 sle_results = pd.read_table(snakemake.input[1], delim_whitespace=True)
 
 # Finally plot the thing
+sns.set(style='darkgrid')
 fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(9, 4), sharey=True)
 sns.boxenplot(x='sample', y='est_counts', data=kal_results, ax=axes[0])
 axes[0].set_title('counts of all samples')

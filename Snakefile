@@ -17,7 +17,9 @@ SAMPLES = samples.index.values.tolist()
 rule all:
     input:
         config['graph_p_values'],
-        config['graph_counts']
+        config['graph_counts'],
+        config['graph_pca'],
+        config['graph_stripplot_lowestpval']
 
 
 rule index:
@@ -50,7 +52,9 @@ rule sleuth:
     output:
         #sleuth = expand("results/{sample}/sleuth/dataframe.tsv", sample=SAMPLES),
         counts_norm = 'temp/counts_normalized.tsv',
-        sleuth_res = 'temp/sleuth_table.tsv'
+        sleuth_res = 'temp/sleuth_table.tsv',
+        sleuth_matrix = 'temp/sleuth_matrix.tsv',
+        sleuth_object = 'temp/sleuth_object'
     conda:
         "envs/sleuth.yaml"
     script:
@@ -82,8 +86,18 @@ rule stripplot:
         'temp/sleuth_table.tsv',
         'temp/counts_normalized.tsv'
     output:
-        config['stripplot_lowestpval']
+        config['graph_stripplot_lowestpval']
     conda:
         "envs/python_plots.yaml"
     script:
         "scripts/stripplot_top20.py"
+
+rule pca:
+    input:
+        sleuth_object = 'temp/sleuth_object'
+    output:
+        graph_pca = config['graph_pca']
+    conda:
+        "envs/sleuth.yaml"
+    script:
+        "scripts/pca.R"

@@ -4,8 +4,9 @@ samples: data/samples.tsv
 ref_transcriptome: data/ref/transcriptome.chr21.fa
 # path to the idx file if available
 # default: temp/transcripts.idx
-transcripts_index: temp/transcripts.idx
+transcripts_index: temp/transcriptome.idx
 # path to the resulting graphs
 graph_counts: results/counts_of_all_samples.svg
 graph_p_values: results/p_values.svg
-stripplot_lowestpval: results/stripplot.svg
+graph_pca: results/pca.png
+graph_stripplot_lowestpval: results/stripplot.svg
