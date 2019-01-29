@@ -44,4 +44,4 @@ labels = [item.get_text() for item in axes[0].get_xticklabels()]
 conditions = samples['condition']
 labels = list(map(', '.join, zip(labels, conditions)))
 
-plt.savefig(snakemake.output[0],bbox_inches="tight")
+plt.savefig(snakemake.output[0], bbox_inches="tight")

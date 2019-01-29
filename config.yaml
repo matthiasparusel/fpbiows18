@@ -8,5 +8,5 @@ transcripts_index: ../data/homo_sapiens_transcriptome.idx
 # path to the resulting graphs
 graph_counts: results/counts_of_all_samples.svg
 graph_p_values: results/p_values.svg
-graph_pca: results/pca.png
+graph_pca: results/pca.svg
 graph_stripplot_lowestpval: results/stripplot.svg

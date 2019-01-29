@@ -1,2 +1,5 @@
 dependencies:
   - scikit-learn
+  - matplotlib
+  - seaborn
+  - pandas

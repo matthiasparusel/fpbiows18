@@ -94,10 +94,11 @@ rule stripplot:
 
 rule pca:
     input:
-        sleuth_object = 'temp/sleuth_object'
+        sample_table = config['samples'],
+        sleuth_matrix = 'temp/sleuth_matrix.tsv'
     output:
         graph_pca = config['graph_pca']
     conda:
-        "envs/sleuth.yaml"
+        'envs/pca.yaml'
     script:
-        "scripts/pca.R"
+        "scripts/pca.py"
