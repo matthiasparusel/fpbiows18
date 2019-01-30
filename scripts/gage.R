@@ -20,12 +20,9 @@ library("AnnotationDbi")
 library("gageData")
 library("sleuth")
 library("pathview")
+library("EnsDb.Hsapiens.v86")
 columns(EnsDb.Hsapiens.v86)
 # load the sleuth object and get the wlad test result
-print(snakemake@input[0])
-print("1")
-print(snakemake@input[1])
-typeof(snakemake@input[1])
 sleuth_table <- read.csv(as.character(snakemake@input[1]), header=TRUE, sep="\t")
 print("3")
 
@@ -65,5 +62,6 @@ plot_pathway = function(pid) pathview(gene.data=foldChange, pathway.id=pid, spec
 
 #plot multiple pathways (plots saved to disk and returns a throwaway list object)
 typeof(snakemake@output$graph_upregulation)
+snakemake@output$graph_upregulation
 upPath = sapply(up10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = snakemake@output$graph_upregulation))
 downPath=sapply(down10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = snakemake@output$graph_downregulation))
