@@ -7,9 +7,9 @@ type: object
 properties:
   samples:
     type: string
-  ref_transcriptome:
+  transcripts_index:
     type: string
 
 required:
   - samples
-  - ref_transcriptome
+  - transcripts_index
