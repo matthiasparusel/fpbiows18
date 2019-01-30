@@ -1,12 +1,12 @@
 # path to the sample sheet (TSV format, columns: sample, condition, ...)
-samples: ../data/samples.tsv
+samples: /mnt/d/tuDortmundInformatik/fp/fpBioinf/data/samples.tsv
 # path to the reference transcriptome
-ref_transcriptome: ../data/homo_sapiens_transcriptome.fa.gz
-# path to the idx file if available
-# default: temp/transcripts.idx
-transcripts_index: ../data/homo_sapiens_transcriptome.idx
+
+transcripts_index: /mnt/d/tuDortmundInformatik/fp/fpBioinf/data/homo_sapiens_transcriptome.idx
 # path to the resulting graphs
 graph_counts: results/counts_of_all_samples.svg
 graph_p_values: results/p_values.svg
 graph_pca: results/pca.svg
 graph_stripplot_lowestpval: results/stripplot.svg
+graph_gage_upregulation: results/gage/upregulation/
+graph_gage_downregulation: results/gage/downregulation/
