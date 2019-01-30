@@ -7,7 +7,9 @@ from snakemake.utils import validate
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
 
-samples = pd.read_table(config["samples"]).set_index("sample", drop=False)
+
+samples = pd.read_csv(config["samples"],sep='\t')
+samples = samples.set_index("sample", drop=False)
 validate(samples, schema="schemas/samples.schema.yaml")
 SAMPLES = samples.index.values.tolist()
 
@@ -19,19 +21,22 @@ rule all:
         config['graph_p_values'],
         config['graph_counts'],
         config['graph_pca'],
-        config['graph_stripplot_lowestpval']
+        config['graph_stripplot_lowestpval'],
+        config['graph_gage_upregulation'],
+        config['graph_gage_downregulation']
 
 
-rule index:
-    input:
-        config["ref_transcriptome"]
-    output:
-        config["transcripts_index"] # create .idx file
-    conda:
-        "envs/kallisto.yaml"
-    shell:
-        "kallisto index -i {output} {input}"
-
+###
+#rule index:
+#    input:
+#        config["ref_transcriptome"]
+#    output:
+#        config["transcripts_index"] # create .idx file
+#    conda:
+#        "envs/kallisto.yaml"
+#    shell:
+#        "kallisto index -i {output} {input}"
+##
 rule counts:
     input:
         tra = config["transcripts_index"],
@@ -108,8 +113,8 @@ rule gage:
     input:
         'temp/sleuth_table_wt.tsv'
     output:
-        graph_upregulation= directory('results/gage/upregulation/'),
-        graph_downregulation= directory("results/gage/downregulation/")
+        graph_upregulation= config['graph_gage_upregulation'],
+        graph_downregulation= config['graph_gage_downregulation']
     conda:
         "envs/sleuth.yaml"
     script:
