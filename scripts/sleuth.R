@@ -13,8 +13,10 @@ so <- sleuth_prep(s2c, ~ condition, extra_bootstrap_summary = TRUE)
 
 so <- sleuth_fit(so)
 so <- sleuth_fit(so, ~1, 'reduced')
-
+sleuthObject <-sleuth_wt(so, colnames(so$design_matrix)[2])
 so <- sleuth_lrt(so, 'reduced', 'full')
+
+
 
 # Normalize and write in tsb file
 normalized <- kallisto_table(so)
@@ -32,6 +34,14 @@ write.table(sleuth_table,
             sep = '\t',
             col.names = NA)
 
+#write in tsv file for gage
+sleuth_table <- sleuth_results(sleuthObject,colnames(sleuthObject$design_matrix)[2],"wt")
+write.table(sleuth_table,
+            file = snakemake@output$'sleuth_res_wt',
+            quote = FALSE,
+            sep = '\t',
+            col.names = NA)
+
 # Create sleuth_marix and save in tsv
 sleuth_matrix <- sleuth_to_matrix(so, 'obs_norm', 'est_counts')
 write.table(sleuth_matrix,
@@ -40,5 +50,4 @@ write.table(sleuth_matrix,
             sep = '\t',
             col.names = NA)
 
-# finally save leuth object
-sleuth_save(so, snakemake@output$'sleuth_object')
+sleuth_save(so , snakemake@output$'sleuth_object')
