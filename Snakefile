@@ -54,7 +54,8 @@ rule sleuth:
         counts_norm = 'temp/counts_normalized.tsv',
         sleuth_res = 'temp/sleuth_table.tsv',
         sleuth_matrix = 'temp/sleuth_matrix.tsv',
-        sleuth_object = 'temp/sleuth_object'
+        sleuth_object = 'temp/sleuth_object',
+        sleuth_res_wt = 'temp/sleuth_table_wt.tsv'
     conda:
         "envs/sleuth.yaml"
     script:
@@ -102,3 +103,14 @@ rule pca:
         'envs/pca.yaml'
     script:
         "scripts/pca.py"
+
+rule gage:
+    input:
+        'temp/sleuth_table_wt.tsv'
+    output:
+        graph_upregulation= directory('results/gage/upregulation/'),
+        graph_downregulation= directory("results/gage/downregulation/")
+    conda:
+        "envs/sleuth.yaml"
+    script:
+        "scripts/gage.R"
