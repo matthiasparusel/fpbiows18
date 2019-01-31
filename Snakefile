@@ -113,9 +113,9 @@ rule gage:
     input:
         'temp/sleuth_table_wt.tsv'
     output:
-        graph_upregulation= config['graph_gage_upregulation'],
-        graph_downregulation= config['graph_gage_downregulation']
+        directory(config['graph_gage_upregulation']),
+        directory(config['graph_gage_downregulation'])
     conda:
-        "envs/sleuth.yaml"
+        "envs/gage.yaml"
     script:
         "scripts/gage.R"

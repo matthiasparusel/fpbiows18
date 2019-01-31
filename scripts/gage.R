@@ -23,14 +23,11 @@ library("EnsDb.Hsapiens.v86")
 columns(EnsDb.Hsapiens.v86)
 # load the sleuth object and get the wlad test result
 sleuth_table <- read.csv(as.character(snakemake@input[1]), header=TRUE, sep="\t")
-print("3")
 
 #get the transcript with significant difference
 sleuth_table<- na.omit(sleuth_table)
 result_table <- subset(sleuth_table,select=c(target_id,pval,b))
-length(result_table$target_id)
 result_table<- subset(result_table,pval<0.05)
-length(result_table$target_id)
 target_id <- result_table$target_id
 valid_id <- gsub("\\..*","",target_id)
 
@@ -60,7 +57,9 @@ down10Id <- substr(as.character(downregulation10$id),start = 1,stop = 8)
 plot_pathway = function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa", new.signature=FALSE,gene.idtype ="entrez" )
 
 #plot multiple pathways (plots saved to disk and returns a throwaway list object)
-typeof(snakemake@output$graph_upregulation)
-snakemake@output$graph_upregulation
-upPath = sapply(up10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = snakemake@output$graph_upregulation))
-downPath=sapply(down10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = snakemake@output$graph_downregulation))
+snakemake@output[1]
+typeof(snakemake@output[1])
+as.character(snakemake@output[1])
+snakemake@output[2]
+upPath = sapply(up10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = as.character(snakemake@output[1])))
+downPath=sapply(down10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = as.character(snakemake@output[2])))

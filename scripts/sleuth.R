@@ -9,12 +9,15 @@ kal_dirs <- file.path('.', unlist(snakemake@input['kal']))
 s2c <- read.table(samples_dir, header = TRUE, stringsAsFactors = FALSE)
 s2c <- dplyr::mutate(s2c, path = kal_dirs)
 
-so <- sleuth_prep(s2c, ~ condition, extra_bootstrap_summary = TRUE)
-
+so <- sleuth_prep(s2c, ~ conditionForSleuth, extra_bootstrap_summary = TRUE)
+sleuth_save(so , snakemake@output$'sleuth_object')
+#so <- sleuth_prep(s2c, ~ condition, extra_bootstrap_summary = TRUE)
+#so$design_matrix
 so <- sleuth_fit(so)
 so <- sleuth_fit(so, ~1, 'reduced')
 sleuthObject <-sleuth_wt(so, colnames(so$design_matrix)[2])
 so <- sleuth_lrt(so, 'reduced', 'full')
+
 
 
 
