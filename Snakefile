@@ -23,7 +23,8 @@ rule all:
         config['graph_pca'],
         config['graph_stripplot_lowestpval'],
         config['graph_gage_upregulation'],
-        config['graph_gage_downregulation']
+        config['graph_gage_downregulation'],
+        config['graph_heatmap']
 
 
 ###
@@ -119,3 +120,14 @@ rule gage:
         "envs/sleuth.yaml"
     script:
         "scripts/gage.R"
+
+rule heatmap:
+	input:
+		kal='temp/counts_normalized.tsv',
+		sle='temp/sleuth_table.tsv'
+	output:
+		config['graph_heatmap']
+	conda:
+		"envs/sleuth.yaml"
+	script:
+		"scripts/heatmap.R"
