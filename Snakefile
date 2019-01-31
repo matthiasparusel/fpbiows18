@@ -21,6 +21,7 @@ rule all:
         config['graph_p_values'],
         config['graph_counts'],
         config['graph_pca'],
+        config["graph_volcano"],
         config['graph_stripplot_lowestpval'],
         config['graph_gage_upregulation'],
         config['graph_gage_downregulation']
@@ -97,6 +98,16 @@ rule stripplot:
         "envs/python_plots.yaml"
     script:
         "scripts/stripplot_top20.py"
+
+rule volcano:
+    input:
+        'temp/sleuth_object'
+    output:
+        config["graph_volcano"]
+    conda:
+        "envs/sleuth.yaml"
+    script:
+        "scripts/volcano_plot.R"
 
 rule pca:
     input:
