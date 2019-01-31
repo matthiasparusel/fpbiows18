@@ -1,0 +1,19 @@
+channels:
+  - conda-forge/label/cf201901
+  - r
+  - bioconda/label/gcc7
+  - bioconda
+dependencies:
+  - r-matrix
+  - bioconductor-summarizedexperiment
+  - bioconductor-genomicalignments
+  - bioconductor-genomicfeatures
+  - bioconductor-rtracklayer
+  - bioconductor-ensembldb
+  - bioconductor-ensdb.hsapiens.v86
+  - bioconductor-gage 
+  - bioconductor-gagedata 
+  - bioconductor-annotationdbi
+  - bioconductor-pathview
+  - hdf5 =1.8.17
+
