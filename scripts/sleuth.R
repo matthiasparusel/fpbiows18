@@ -28,7 +28,7 @@ write.table(normalized,
             col.names = NA)
 
 # Write in tsv file for use with Python
-sleuth_table <- sleuth_results(so, 'reduced:full', 'lrt', show_all = FALSE)
+sleuth_table <- sleuth_results(so, 'reduceppd:full', 'lrt', show_all = FALSE)
 write.table(sleuth_table,
             file = snakemake@output$'sleuth_res',
             quote = FALSE,
