@@ -57,9 +57,5 @@ down10Id <- substr(as.character(downregulation10$id),start = 1,stop = 8)
 plot_pathway = function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa", new.signature=FALSE,gene.idtype ="entrez" )
 
 #plot multiple pathways (plots saved to disk and returns a throwaway list object)
-snakemake@output[1]
-typeof(snakemake@output[1])
-as.character(snakemake@output[1])
-snakemake@output[2]
 upPath = sapply(up10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = as.character(snakemake@output[1])))
 downPath=sapply(down10Id, function(pid) pathview(gene.data=foldChange, pathway.id=pid, species="hsa",kegg.dir = as.character(snakemake@output[2])))
